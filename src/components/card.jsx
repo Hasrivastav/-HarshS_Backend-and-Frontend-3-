@@ -27,6 +27,12 @@ const Cards = () => {
     };
     fetchExchanges();
   }, [update]);
+
+  const handleDeleteExchange = (id) => {
+    const updatedExchanges = exchanges.filter((exchange) => exchange._id !== id);
+    setExchanges(updatedExchanges);
+  };
+
   
 
   return (
@@ -37,6 +43,7 @@ const Cards = () => {
         exchanges.map((i) => (
           <div className="exchangesChild" key={i.id}>
             <ExchangeCard
+            i={i}
               key={i._id}
               id={i._id}
               name={i.name}
@@ -44,6 +51,9 @@ const Cards = () => {
               phone={i.phone}
               website={i.website}
               setUpdate={setUpdate}
+             
+              handleDeleteExchange={handleDeleteExchange}
+             
             
             />
           </div>

@@ -11,9 +11,10 @@ import {
 import axios from "axios";
 import { Modal, Form, Input, Card, Col } from "antd";
 import "../style/card.scss";
-// const { confirm } = Modal;
 
-export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,exchanges,setExchanges }) => {
+
+
+export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handleDeleteExchange }) => {
     const [Name,setName] = useState(name);
     const [Email, setEmail] = useState(email);
     const [Phone,setPhone] = useState(phone);
@@ -33,10 +34,8 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,excha
   };
 
   const handleDeleteClick = (id) => {
-    const updatedExchanges = exchanges.filter((exchange) => exchange.id !== id);
-    setExchanges(updatedExchanges);
-   
-  };
+    handleDeleteExchange(id);
+    };
   
   
   const handleEditModalCancel = () => {
