@@ -1,0 +1,45 @@
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+.exchanges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow-x: hidden;
+}
+
+.exchangesChild {
+  width: calc(25% - 10px);
+  margin: 20px 0 0;
+}
+
+.card-avatar,
+.ant-card-actions {
+  background-color: #d6c7c7;
+}
+.card-avatar {
+  height: 200px;
+}
+
+
+
+//adding media queries
+
+@media (max-width: 1200px) {
+  .exchangesChild {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 825px) {
+  .exchangesChild {
+    width: calc(100% - 20px);
+  }
+}
