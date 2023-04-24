@@ -1,4 +1,4 @@
-import React, {   useState } from "react";
+import React, { useState } from "react";
 import {
   EditOutlined,
   MailOutlined,
@@ -12,63 +12,77 @@ import axios from "axios";
 import { Modal, Form, Input, Card, Col } from "antd";
 import "../style/card.scss";
 
+export const ExchangeCard = ({
+  id,
+  name,
+  email,
+  phone,
+  website,
+  setUpdate,
+  handleDeleteExchange,
+}) => {
+  const [Name, setName] = useState(name);
+  const [Email, setEmail] = useState(email);
+  const [Phone, setPhone] = useState(phone);
+  const [Website, setWebsite] = useState(website);
+  const [liked, setLiked] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);   // to display and hide form model
 
-
-export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handleDeleteExchange }) => {
-    const [Name,setName] = useState(name);
-    const [Email, setEmail] = useState(email);
-    const [Phone,setPhone] = useState(phone);
-    const [Website, setWebsite] = useState(website);
-   const [liked, setLiked] = useState(false);
-   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-   
-  
-
-
+  // function called when clicked on edit icon
   const handleEditClick = () => {
     setIsEditModalVisible(true);
   };
 
+
+  // function called when clicked on heart icon
   const handleLikeClick = () => {
     setLiked(!liked);
   };
 
-  const handleDeleteClick = (id) => {
-    handleDeleteExchange(id);
-    };
-  
-  
+  // function called when clicked on bin icon
+  const handleDeleteClick =  async (id) => {
+    try {
+      const {data} =await axios.delete(`https://bytive-backend-ujf1.onrender.com/api/v1/${id}`,
+    {
+        withCredentials:true,
+       })
+       toast.success(data.message);
+       setUpdate((update) => !update);
+     } catch (error) {
+       toast.error(error.response.data.message);
+     }
+  };
+
+
+  //function for cancel icon in the form model
   const handleEditModalCancel = () => {
     setIsEditModalVisible(false);
   };
 
-  
-  const handleEditModalOk =async(id)=> {
 
+  //function for ok button in the form model
+  const handleEditModalOk = async (id) => {
     try {
-       await axios.put(`https://bytive-backend-ujf1.onrender.com/api/v1/${id}`,
-         {
-            name: Name,
-            email: Email,
-            phone: Phone,
-            website: Website, 
-         },
-         {
-          withCredentials:true,
-         })
-         setIsEditModalVisible(false);
-         setUpdate((update) => !update);
-       
-     }catch (error) {
-        console.log(error)
-       }
-  
+      await axios.put(
+        `https://bytive-backend-ujf1.onrender.com/api/v1/${id}`,
+        {
+          name: Name,
+          email: Email,
+          phone: Phone,
+          website: Website,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setIsEditModalVisible(false);
+      setUpdate((update) => !update);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
- 
-
-  return   (
-   
+  return (
     <Card
       style={{ width: "100%", height: "100%" }}
       cover={
@@ -85,15 +99,14 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
           <HeartOutlined onClick={handleLikeClick} />
         ),
         <EditOutlined key="edit" onClick={handleEditClick} />,
-        <DeleteOutlined onClick={()=>handleDeleteClick(id)} />,
+        <DeleteOutlined onClick={() => handleDeleteClick(id)} />,
       ]}
     >
       <Modal
         visible={isEditModalVisible}
         title="Edit Item"
         onCancel={handleEditModalCancel}
-        onOk={()=>handleEditModalOk(id)}
-       
+        onOk={() => handleEditModalOk(id)}
       >
         <Form
           name="basic"
@@ -110,7 +123,6 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
           <Form.Item
             label="Name"
             name="Name"
-           
             initialValue={name}
             rules={[
               {
@@ -119,7 +131,7 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
               },
             ]}
           >
-            <Input value={Name} onChange={(e) => setName(e.target.value)} />
+          <Input value={Name} onChange={(e) => setName(e.target.value)} />
           </Form.Item>
 
           <Form.Item
@@ -133,7 +145,7 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
               },
             ]}
           >
-            <Input  value={Email} onChange={(e) => setEmail(e.target.value)} />
+          <Input value={Email} onChange={(e) => setEmail(e.target.value)} />
           </Form.Item>
 
           <Form.Item
@@ -147,7 +159,7 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
               },
             ]}
           >
-            <Input value={Phone} onChange={(e) => setPhone(e.target.value)} />
+          <Input value={Phone} onChange={(e) => setPhone(e.target.value)} />
           </Form.Item>
           <Form.Item
             label="Website"
@@ -160,7 +172,10 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
               },
             ]}
           >
-            <Input value={Website} onChange={(e) => setWebsite(e.target.value)} />
+            <Input
+              value={Website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
           </Form.Item>
         </Form>
       </Modal>
@@ -181,7 +196,5 @@ export const ExchangeCard = ({ id, name, email, phone, website, setUpdate ,handl
         </Col>
       </Col>
     </Card>
-    
-   
-  ) ;
+  );
 };
