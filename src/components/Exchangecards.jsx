@@ -46,10 +46,11 @@ export const ExchangeCard = ({
     {
         withCredentials:true,
        })
-       toast.success(data.message);
+      //  toast.success(data.message);
        setUpdate((update) => !update);
      } catch (error) {
-       toast.error(error.response.data.message);
+      //  toast.error(error.response.data.message);
+      console.log(error)
      }
   };
 
